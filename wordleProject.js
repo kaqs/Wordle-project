@@ -8,29 +8,28 @@ let responseList = [];
 
 do {
     let responseCheckList = [];
+    let showMyMessage = '';
 
     attempts++;
 
+    for (let i = 0; i < responseList.length; i++){
+        showMyMessage = showMyMessage + guessList[i] + "\n" + responseList[i].join(" ") + "\n\n";
+    }
    
-    let guessListMessage = guessList.join("\n");
-    console.log(guessListMessage);
-    let responseListMessage = responseList.join("\n");
-    console.log(responseListMessage);
-
-    
-    guess = prompt("Please enter a word containing 5 letters\n" + guessListMessage + "\n" + responseListMessage);
-    guessList.push(guess);
+    guess = prompt("Please enter a word containing 5 letters\n\n" + showMyMessage);
+    let guessSplit = guess.split('').join('  ');
+    guessList.push(guessSplit);
 
     for (indexGuess = 0; indexGuess < guess.length; indexGuess++) {
-        let responseCheck = `"${guess[indexGuess]} ✗"`;
+        let responseCheck = `✗`;
 
         for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
 
             if (guess[indexGuess] === secretWord[indexSecret] && indexGuess === indexSecret) {
-                responseCheck = `"${guess[indexGuess]} ✓"`;
+                responseCheck = `✓`;
 
             } else if (guess[indexGuess] === secretWord[indexSecret] && indexGuess !== indexSecret) {
-                responseCheck = `"${guess[indexGuess]} ⍻"`;
+                responseCheck = `⍻`;
 
             }
         }
@@ -42,6 +41,10 @@ do {
     console.log(responseList);
 
 } while (guess != secretWord && attempts <= 6)
+
+if (guess === secretWord){
+    alert ("Perfect! You win!")
+}
 
 console.log(responseList);
 console.log(guessList);
