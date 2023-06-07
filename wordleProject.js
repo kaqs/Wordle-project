@@ -1,38 +1,51 @@
-let guess = "rates";
+let guess = "";
 let secretWord = "water";
 let attempts = 0; // wordle game has 6 attempts
 let indexGuess;
 let indexSecret;
+let guessList = [];
 let responseList = [];
 
-for (indexGuess = 0; indexGuess < guess.length; indexGuess++) {
-    let response = `"${guess[indexGuess]} ✗"`;
+do {
+    let responseCheckList = [];
 
-    for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
+    attempts++;
 
-        //console.log(guess.includes(secretWord[indexSecret]));
+   
+    let guessListMessage = guessList.join("\n");
+    console.log(guessListMessage);
+    let responseListMessage = responseList.join("\n");
+    console.log(responseListMessage);
 
-        if (guess[indexGuess] === secretWord[indexSecret] && indexGuess === indexSecret) {
-            response = `"${guess[indexGuess]} ✓"`;
+    
+    guess = prompt("Please enter a word containing 5 letters\n" + guessListMessage + "\n" + responseListMessage);
+    guessList.push(guess);
 
-            //console.log(`(${indexSecret}, ${indexGuess})`);
-            //console.log(`(${secretWord[indexSecret]}, ${guess[indexGuess]})`);
-        } else if (guess[indexGuess] === secretWord[indexSecret] && indexGuess !== indexSecret) {
-            response = `"${guess[indexGuess]} ⍻"`;
+    for (indexGuess = 0; indexGuess < guess.length; indexGuess++) {
+        let responseCheck = `"${guess[indexGuess]} ✗"`;
 
-            //console.log(`(${indexSecret}, ${indexGuess})`);
-            //console.log(`(${secretWord[indexSecret]}, ${guess[indexGuess]})`);
+        for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
+
+            if (guess[indexGuess] === secretWord[indexSecret] && indexGuess === indexSecret) {
+                responseCheck = `"${guess[indexGuess]} ✓"`;
+
+            } else if (guess[indexGuess] === secretWord[indexSecret] && indexGuess !== indexSecret) {
+                responseCheck = `"${guess[indexGuess]} ⍻"`;
+
+            }
         }
-        // // console.log(`valor de indexSecret: ${indexSecret},`);
-        // console.log(`valor de secretWord no index de indexSecret (secretWord[indexSecret]): ${secretWord[indexSecret]},`);
 
-        // console.log(`valor de indexGuess: ${indexGuess},`);
-        // console.log(`valor de guess no index de indexGuess (guess[indexGuess]): ${guess[indexGuess]},`);
+        responseCheckList.push(responseCheck);
 
     }
-    responseList.push(response);
-}
+    responseList.push(responseCheckList);
+    console.log(responseList);
+
+} while (guess != secretWord && attempts <= 6)
+
 console.log(responseList);
+console.log(guessList);
+
 
 
 
