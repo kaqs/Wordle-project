@@ -1,0 +1,62 @@
+body {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+}
+
+.guessBoard {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(5, 6fr);
+    padding: 10px;
+
+}
+
+.guessbox {
+    background-color: var(--branca);
+    border-radius: 10px;
+    border-style: groove;
+    box-shadow: 3px 3px 0 var(--cinza);
+    height: 60px;
+    font-size: 1.75em;
+    font-weight: bold;
+    line-height: 60px;
+    text-align: center;
+    width: 65px;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+input[type=text] {
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+}
+
+button {
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    height: 40px;
+    padding: 10px;
+    text-align: center;
+    width: 100px;
+}
+
+#testbutton {
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    height: 40px;
+    padding: 10px;
+    text-align: center;
+    width: 360px;
+}
