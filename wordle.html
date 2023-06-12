@@ -13,49 +13,51 @@
 <body>
     <h1>Wordle Game</h1>
    
-    <div class = guessBoard>
+    <div class = board>
 
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
+        <div class="guessbox" id="1A"></div>
+        <div class="guessbox" id="1B"></div>
+        <div class="guessbox" id="1C"></div>
+        <div class="guessbox" id="1D"></div>
+        <div class="guessbox" id="1E"></div>
 
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
+        <div class="guessbox" id="2A"></div>
+        <div class="guessbox" id="2B"></div>
+        <div class="guessbox" id="2C"></div>
+        <div class="guessbox" id="2D"></div>
+        <div class="guessbox" id="2E"></div>
+        
+        <div class="guessbox" id="3A"></div>
+        <div class="guessbox" id="3B"></div>
+        <div class="guessbox" id="3C"></div>
+        <div class="guessbox" id="3D"></div>
+        <div class="guessbox" id="3E"></div>
+        
+        <div class="guessbox" id="4A"></div>
+        <div class="guessbox" id="4B"></div>
+        <div class="guessbox" id="4C"></div>
+        <div class="guessbox" id="4D"></div>
+        <div class="guessbox" id="4E"></div>
 
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
+        <div class="guessbox" id="5A"></div>
+        <div class="guessbox" id="5B"></div>
+        <div class="guessbox" id="5C"></div>
+        <div class="guessbox" id="5D"></div>
+        <div class="guessbox" id="5E"></div>
 
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
-        <div class="guessbox"></div>
+        <div class="guessbox" id="6A"></div>
+        <div class="guessbox" id="6B"></div>
+        <div class="guessbox" id="6C"></div>
+        <div class="guessbox" id="6D"></div>
+        <div class="guessbox" id="6E"></div>      
 
     </div>
 
-    <input type="text" placeholder="Type your guess" id="userguess">
+    <input type="text" id="guess" minlength="5" maxlength="5">
     <button type="submit" id="submitbutton">SUBMIT</button><br>
     <button type="button" id="testbutton">whatever button to test collor change</button>
+
+    <script src="wordle.js"></script>
 
 </body>
 </html>
