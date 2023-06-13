@@ -1,47 +1,45 @@
 let guess = "";
 let secretWord = "stone";
 let guessList = [];
-
-function returnExample(guess, secretWord) {
-    if (guess != secretWord) {
-        return 1 + 1;
-    }
-}
-
+let indexGuess;
+let indexSecret;
+let attempts = 0;
+let submit = document.getElementById("submitbutton");
 
 function submitGuess() {
-    // retrieve user guess from input box
+
     guess = document.getElementById("guess").value;
     guessList.push(guess);
-    console.log(guess);
-    console.log(guessList);
-
-    // call a function that receives the user guess as an argument, and returns anything as an example
-    const result = returnExample(guess, secretWord);
-    console.log(result);
-}
-
-
-function changeColour() {
     const inputElement = document.getElementById("guess");
     const inputElementvalue = inputElement.value;
 
-    // try to loop the first 5 guessboxes and put any value and colour just as an example
-    for (i = 0; i < 5; i++) {
-        const id = "1" + i;
+    for (indexGuess = 0; indexGuess < 5; indexGuess++) {
+        const id = "0" + indexGuess;
         const boxElement = document.getElementById(id);
-        let guessBoxText = inputElementvalue[i].toUpperCase();
+        let guessBoxText = inputElementvalue[indexGuess].toUpperCase();
         boxElement.innerText = guessBoxText;
-        boxElement.style.background = "grey"
+
+        for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
+
+            if (guess[indexGuess] === secretWord[indexSecret] && indexGuess === indexSecret) {
+                boxElement.style.background = "#2cb851";
+                break;
+
+            } else if (guess[indexGuess] === secretWord[indexSecret] && indexGuess !== indexSecret) {
+                boxElement.style.background = "#dfe615";
+                break;
+
+            } else if (guess[indexGuess] !== secretWord[indexSecret] && indexGuess !== indexSecret) {
+                boxElement.style.background = "#a6aba8";
+            }
+        }
     }
 
-    
+    if (guess === secretWord) {
+        alert("Perfect! You win!")
+    }
 }
 
-
-
-document.getElementById("submitbutton").onclick = submitGuess;
-
-document.getElementById("testbutton").onclick = changeColour;
+submit.onclick = submitGuess;
 
 
