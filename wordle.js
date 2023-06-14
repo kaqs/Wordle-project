@@ -1,4 +1,5 @@
 let guess = "";
+let guessElement = document.getElementById("guess");
 let secretWord = "stone";
 let guessList = [];
 let indexGuess;
@@ -6,14 +7,20 @@ let indexSecret;
 let attempts = 0;
 let indexBoard;
 let submit = document.getElementById("submitbutton");
-let message = document.getElementById("messageendgame");
+let message = document.getElementById("message");
+let newgame = document.getElementById("newgame");
+
+document.getElementById("guess").focus();
+
+
+
 
 function submitGuess() {
 
     // new variable created to be used/adjusted as necessary without affecting the original variable
     let internalSecretWord = secretWord;
 
-    guess = document.getElementById("guess").value;
+    guess = guessElement.value;
 
     const inputElement = document.getElementById("guess");
     const inputElementvalue = inputElement.value;
@@ -53,11 +60,29 @@ function submitGuess() {
         }
     }
 
-    if (guess === secretWord) {
-        message.innerText = "Perfect! You win!";
-    }
     attempts++
+
+    if (guess === secretWord) {
+        submit.style.visibility = "hidden"
+        newgame.style.visibility = "visible";
+        message.innerText = "Perfect! You win!";
+
+    } else if (guess !== secretWord && attempts == 6) {
+        submit.style.visibility = "hidden"
+        newgame.style.visibility = "visible";
+        message.innerText = `"Unlucky! The word is ${secretWord}!"`;
+    }
+
+    document.getElementById("guess").value = "";
+    document.getElementById("guess").focus();
 }
+
 submit.onclick = submitGuess;
+guessElement.onkeydown = function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      submit.click();
+    }
+  }
 
 
