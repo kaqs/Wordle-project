@@ -10,12 +10,21 @@ let submit = document.getElementById("submitbutton");
 let message = document.getElementById("message");
 let newgame = document.getElementById("newgame");
 
-document.getElementById("guess").focus();
+guessElement.focus();
 
+function onKeyUpHandler (event){
+    if (guessElement.value.length === 5){
+        submit.removeAttribute('disabled');
+    } else {
+        submit.setAttribute('disabled', null);
+    }
+    if (event.key === "Enter") {
+        event.preventDefault();
+        submit.click();
+    }
+}
 
-
-
-function submitGuess() {
+function submitGuess() { 
 
     // new variable created to be used/adjusted as necessary without affecting the original variable
     let internalSecretWord = secretWord;
@@ -64,25 +73,24 @@ function submitGuess() {
 
     if (guess === secretWord) {
         submit.style.visibility = "hidden"
-        newgame.style.visibility = "visible";
+        endgame.style.visibility = "visible";
         message.innerText = "Perfect! You win!";
 
     } else if (guess !== secretWord && attempts == 6) {
         submit.style.visibility = "hidden"
-        newgame.style.visibility = "visible";
+        endgame.style.visibility = "visible";
         message.innerText = `"Unlucky! The word is ${secretWord}!"`;
     }
 
-    document.getElementById("guess").value = "";
-    document.getElementById("guess").focus();
+    guessElement.value = "";
+    guessElement.focus();
+    submit.setAttribute('disabled', null);
 }
 
 submit.onclick = submitGuess;
-guessElement.onkeydown = function(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      submit.click();
-    }
-  }
+guessElement.onkeyup = onKeyUpHandler;
+
+
+
 
 
