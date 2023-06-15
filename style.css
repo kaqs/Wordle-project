@@ -55,6 +55,11 @@ button {
     visibility: visible;
 }
 
+#endgame {
+    visibility: hidden;
+    text-align: center;
+}
+
 #newgame {
     border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
@@ -63,5 +68,6 @@ button {
     padding: 10px;
     text-align: center;
     width: 150px;
-    visibility: hidden;
 }
+
+
