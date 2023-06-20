@@ -1,4 +1,4 @@
-guess = "";
+let guess = "";
 let guessElement = document.getElementById("guess");
 let secretWord = "stone";
 let guessList = [];
@@ -9,9 +9,14 @@ let indexBoard;
 const green = "#2cb851";
 const yellow = "#dfe615";
 const grey = "#a6aba8";
+const white = "#ffffff"
 let submit = document.getElementById("submitbutton");
 let message = document.getElementById("message");
 let newgame = document.getElementById("newgame");
+let endgame = document.getElementById("endgame");
+
+
+
 
 guessElement.focus();
 
@@ -74,32 +79,49 @@ function submitGuess() {
 
     attempts++
 
-    if (guess === secretWord) {
-        submit.style.visibility = "hidden"
-        endgame.style.visibility = "visible";
-        message.innerText = "Perfect! You win!";
+    checkSecretWord()
+    resetVar()    
+}
 
-    } else if (guess !== secretWord && attempts == 6) {
-        submit.style.visibility = "hidden"
-        endgame.style.visibility = "visible";
-        message.innerText = `"Unlucky! The word is ${secretWord}!"`;
-    }
-
+function resetVar(){
     guessElement.value = "";
     guessElement.focus();
     submit.setAttribute('disabled', null);
 }
+function getRandomWinWord(){
+    let winWord = ['Perfect', 'Amazing', 'Wonderful', 'Brilliant'];
+    let length = winWord.length;
+    let mathRandom = Math.random() * length;
+    let mathFloor = Math.floor(mathRandom);
+    return winWord[mathFloor];
+}
 
+function checkSecretWord() {
+    if (guess === secretWord) {
+        guessElement.setAttribute('disabled', null);
+        submit.style.visibility = "hidden"
+        endgame.style.visibility = "visible";
+        message.innerText = `"${getRandomWinWord()}! You win!"`;
+
+    } else if (guess !== secretWord && attempts == 6) {
+        guessElement.setAttribute('disabled', null);
+        submit.style.visibility = "hidden"
+        endgame.style.visibility = "visible";
+        message.innerText = `"Unlucky! The word is ${secretWord}!"`;
+    }
+}
 function newGameReset(event) {
     for (let row = 0; row < 6; row++) {
         for (let column = 0; column < 5; column++) {
             const idReset = row.toString() + column.toString();
             const boxReset = document.getElementById(idReset);
-            boxReset.style.background = "white"
+            boxReset.style.background = white;
             boxReset.innerText = "";
             submit.style.visibility = "visible";
             endgame.style.visibility = "hidden";
             attempts = 0;
+            guessElement.disabled = false;
+            guessElement.focus();
         }
     }
 }
@@ -107,6 +129,7 @@ function newGameReset(event) {
 submit.onclick = submitGuess;
 guessElement.onkeyup = onKeyUpHandler;
 newgame.onclick = newGameReset;
+
 
 
 
