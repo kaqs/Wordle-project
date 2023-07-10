@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "build": "esbuild index.js --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=main.js",
+    "start": "http-server . -p 3000"
+  },
+  "dependencies": {
+    "better-random-words": "^1.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.18.11",
+    "http-server": "^14.1.1"
+  }
+}
