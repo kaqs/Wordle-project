@@ -1,9 +1,9 @@
 import { generate, wordList } from "random-words";
+import { fiveLetterWords } from "./five-letter-words-list";
 
 let guess = "";
 let guessElement = document.getElementById("guess");
 let secretWord = getSecretWord();
-let guessList = [];
 let indexGuess;
 let indexSecret;
 let attempts = 0;
@@ -25,12 +25,20 @@ function getSecretWord() {
 function onKeyUpHandler(event) {
     if (guessElement.value.length === 5) {
         submit.removeAttribute('disabled');
+        isGuessValid();
     } else {
         submit.setAttribute('disabled', null);
     }
     if (event.key === "Enter") {
         event.preventDefault();
         submit.click();
+    }
+}
+
+function isGuessValid() {
+    if (!fiveLetterWords.includes(guessElement.value)) {
+        alert("NOT A WORD");
+        submit.setAttribute('disabled', null);
     }
 }
 
@@ -132,9 +140,5 @@ function newGameReset(event) {
 submit.onclick = submitGuess;
 guessElement.onkeyup = onKeyUpHandler;
 newgame.onclick = newGameReset;
-
-
-
-
 
 
