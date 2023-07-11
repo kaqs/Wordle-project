@@ -1,24 +1,26 @@
+import { generate, wordList } from "random-words";
+
 let guess = "";
 let guessElement = document.getElementById("guess");
-let secretWord = "stone";
+let secretWord = getSecretWord();
 let guessList = [];
 let indexGuess;
 let indexSecret;
 let attempts = 0;
-let indexBoard;
 const green = "#2cb851";
 const yellow = "#dfe615";
 const grey = "#a6aba8";
-const white = "#ffffff"
+const white = "#ffffff";
 let submit = document.getElementById("submitbutton");
 let message = document.getElementById("message");
 let newgame = document.getElementById("newgame");
 let endgame = document.getElementById("endgame");
 
-
-
-
 guessElement.focus();
+
+function getSecretWord() {
+    return generate({ minLength: 10000, maxLength: 5 }); //minLength limited to the maxLength
+}
 
 function onKeyUpHandler(event) {
     if (guessElement.value.length === 5) {
@@ -80,15 +82,15 @@ function submitGuess() {
     attempts++
 
     checkSecretWord()
-    resetVar()    
+    resetVar()
 }
 
-function resetVar(){
+function resetVar() {
     guessElement.value = "";
     guessElement.focus();
     submit.setAttribute('disabled', null);
 }
-function getRandomWinWord(){
+function getRandomWinWord() {
     let winWord = ['Perfect', 'Amazing', 'Wonderful', 'Brilliant'];
     let length = winWord.length;
     let mathRandom = Math.random() * length;
@@ -119,11 +121,12 @@ function newGameReset(event) {
             boxReset.innerText = "";
             submit.style.visibility = "visible";
             endgame.style.visibility = "hidden";
-            attempts = 0;
-            guessElement.disabled = false;
-            guessElement.focus();
         }
     }
+    attempts = 0;
+    guessElement.disabled = false;
+    guessElement.focus();
+    secretWord = getSecretWord();
 }
 
 submit.onclick = submitGuess;
