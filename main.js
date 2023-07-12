@@ -25765,11 +25765,11 @@
     let internalSecretWord = secretWord;
     guess = guessElement.value;
     const inputElement = document.getElementById("guess");
-    const inputElementvalue = inputElement.value;
+    const inputElementValue = inputElement.value.toLowerCase();
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
       const id = attempts.toString() + indexGuess.toString();
       const boxElement = document.getElementById(id);
-      let guessBoxText = inputElementvalue[indexGuess].toUpperCase();
+      let guessBoxText = inputElementValue[indexGuess].toUpperCase();
       boxElement.innerText = guessBoxText;
       boxElement.style.background = grey;
       for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {

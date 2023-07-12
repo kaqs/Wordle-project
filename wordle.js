@@ -42,7 +42,7 @@ function isGuessValid() {
     }
 }
 
-function submitGuess() {
+function submitGuess() {    
 
     // new variable created to be used/adjusted as necessary without affecting the original variable
     let internalSecretWord = secretWord;
@@ -50,13 +50,13 @@ function submitGuess() {
     guess = guessElement.value;
 
     const inputElement = document.getElementById("guess");
-    const inputElementvalue = inputElement.value;
-
+    const inputElementValue = inputElement.value.toLowerCase();
+    
     // 1st loop: it assumes all the letters does not match and are not included in internalSecretWord (grey colour)
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
         const id = attempts.toString() + indexGuess.toString();
         const boxElement = document.getElementById(id);
-        let guessBoxText = inputElementvalue[indexGuess].toUpperCase();
+        let guessBoxText = inputElementValue[indexGuess].toUpperCase();
         boxElement.innerText = guessBoxText;
         boxElement.style.background = grey;
 
@@ -92,6 +92,8 @@ function submitGuess() {
     checkSecretWord()
     resetVar()
 }
+
+
 
 function resetVar() {
     guessElement.value = "";
