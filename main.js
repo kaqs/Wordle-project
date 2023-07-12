@@ -25756,8 +25756,9 @@
     }
   }
   function isGuessValid() {
-    if (!fiveLetterWords.includes(guessElement.value)) {
-      alert("NOT A WORD");
+    let guessLowerCase = guessElement.value.toLowerCase();
+    if (!fiveLetterWords.includes(guessLowerCase)) {
+      console.log("NOT A WORD");
       submit.setAttribute("disabled", null);
     }
   }
@@ -25765,7 +25766,7 @@
     let internalSecretWord = secretWord;
     guess = guessElement.value;
     const inputElement = document.getElementById("guess");
-    const inputElementValue = inputElement.value.toLowerCase();
+    const inputElementValue = inputElement.value;
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
       const id = attempts.toString() + indexGuess.toString();
       const boxElement = document.getElementById(id);

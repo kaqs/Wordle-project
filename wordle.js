@@ -36,8 +36,9 @@ function onKeyUpHandler(event) {
 }
 
 function isGuessValid() {
-    if (!fiveLetterWords.includes(guessElement.value)) {
-        alert("NOT A WORD");
+    let guessLowerCase = guessElement.value.toLowerCase();
+    if (!fiveLetterWords.includes(guessLowerCase)) {
+        console.log("NOT A WORD");
         submit.setAttribute('disabled', null);
     }
 }
@@ -50,7 +51,7 @@ function submitGuess() {
     guess = guessElement.value;
 
     const inputElement = document.getElementById("guess");
-    const inputElementValue = inputElement.value.toLowerCase();
+    const inputElementValue = inputElement.value
     
     // 1st loop: it assumes all the letters does not match and are not included in internalSecretWord (grey colour)
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
