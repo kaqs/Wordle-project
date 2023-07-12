@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "esbuild wordle.js --watch --bundle --minify --sourcemap --target=chrome100 --outfile=main.js",
+    "build": "esbuild wordle.js --watch --bundle --sourcemap --target=chrome100 --outfile=main.js",
     "start": "http-server . -p 3000"
   },
   "devDependencies": {
