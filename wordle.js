@@ -48,10 +48,10 @@ function submitGuess() {
     // new variable created to be used/adjusted as necessary without affecting the original variable
     let internalSecretWord = secretWord;
 
-    guess = guessElement.value;
-
+    guess = guessElement.value.toLowerCase();
+    
     const inputElement = document.getElementById("guess");
-    const inputElementValue = inputElement.value
+    const inputElementValue = inputElement.value.toLowerCase();
     
     // 1st loop: it assumes all the letters does not match and are not included in internalSecretWord (grey colour)
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
