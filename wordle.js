@@ -19,7 +19,9 @@ let endgame = document.getElementById("endgame");
 guessElement.focus();
 
 function getSecretWord() {
-    return generate({ minLength: 10000, maxLength: 5 }); //minLength limited to the maxLength
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlSecret = urlParams.get('secret');
+    return urlSecret ? urlSecret : generate({ minLength: 10000, maxLength: 5 }); //minLength limited to the maxLength
 }
 
 function onKeyUpHandler(event) {
@@ -43,16 +45,16 @@ function isGuessValid() {
     }
 }
 
-function submitGuess() {    
+function submitGuess() {
 
     // new variable created to be used/adjusted as necessary without affecting the original variable
-    let internalSecretWord = secretWord;
+    //let internalSecretWord = secretWord;
 
     guess = guessElement.value.toLowerCase();
-    
+
     const inputElement = document.getElementById("guess");
     const inputElementValue = inputElement.value.toLowerCase();
-    
+
     // 1st loop: it assumes all the letters does not match and are not included in internalSecretWord (grey colour)
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
         const id = attempts.toString() + indexGuess.toString();
@@ -62,14 +64,20 @@ function submitGuess() {
         boxElement.style.background = grey;
 
         // this FOR statement loops through internalSecretWord and then compares the character and index of guess
-        for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
+        for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
+
+            if (guess[indexGuess] === secretWord[indexSecret] && indexGuess !== indexSecret) {
+                boxElement.style.background = yellow;
+                // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
+                //internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+            }
 
             // this IF statement identifies all characters that matches the position of internalSecretWord characters and their index (green colour)
-            if (guess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
-                boxElement.style.background = green;
-                // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
-                internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
-            }
+            // if (guess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
+            //     boxElement.style.background = green;
+            //     // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
+            //     //internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+            // }
         }
     }
 
@@ -78,13 +86,19 @@ function submitGuess() {
         const id = attempts.toString() + indexGuess.toString();
         const boxElement = document.getElementById(id);
 
-        for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
+        for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
 
-            if (guess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret) {
-                boxElement.style.background = yellow;
+            if (guess[indexGuess] === secretWord[indexSecret] && indexGuess === indexSecret) {
+                boxElement.style.background = green;
                 // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
-                internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+                //internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
             }
+
+            // if (guess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret) {
+            //     boxElement.style.background = yellow;
+            //     // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
+            //     internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+            // }
         }
     }
 
