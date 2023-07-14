@@ -4407,6 +4407,7 @@
     "goats",
     "going",
     "goods",
+    "goose",
     "grace",
     "grade",
     "grain",
@@ -4430,6 +4431,7 @@
     "group",
     "grove",
     "grown",
+    "growl",
     "grows",
     "guard",
     "guess",
@@ -5127,6 +5129,7 @@
     "okehs",
     "okies",
     "oking",
+    "otter",
     "packs",
     "pages",
     "pains",
@@ -5502,6 +5505,7 @@
     "spare",
     "spark",
     "speak",
+    "spear",
     "specs",
     "speed",
     "spell",
@@ -5528,6 +5532,7 @@
     "stake",
     "stamp",
     "stand",
+    "stare",
     "stark",
     "stars",
     "start",
@@ -5625,6 +5630,7 @@
     "tiles",
     "timer",
     "times",
+    "tiple",
     "tired",
     "tires",
     "title",
@@ -6105,10 +6111,6 @@
   var indexGuess;
   var indexSecret;
   var attempts = 0;
-  var green = "#2cb851";
-  var yellow = "#dfe615";
-  var grey = "#a6aba8";
-  var white = "#ffffff";
   var submit = document.getElementById("submitbutton");
   var message = document.getElementById("message");
   var newgame = document.getElementById("newgame");
@@ -6140,15 +6142,21 @@
   }
   function submitGuess(internalGuess, internalSecretWord) {
     guessLowerCase = guessElement.value.toLowerCase();
+    compareGuess(internalSecretWord, internalGuess);
+    attempts++;
+    checkSecretWord();
+    resetVar();
+  }
+  function compareGuess(internalSecretWord, internalGuess) {
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
       const id = attempts.toString() + indexGuess.toString();
       const boxElement = document.getElementById(id);
       let guessBoxText = guessLowerCase[indexGuess].toUpperCase();
       boxElement.innerText = guessBoxText;
-      boxElement.style.background = grey;
+      boxElement.dataset.color = "grey";
       for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
         if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
-          boxElement.style.background = green;
+          boxElement.dataset.color = "green";
           internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
           internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
         }
@@ -6158,14 +6166,11 @@
       const id = attempts.toString() + indexGuess.toString();
       const boxElement = document.getElementById(id);
       for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
-        if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && boxElement.style.background !== green && boxElement.style.background !== grey) {
-          boxElement.style.background = yellow;
+        if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && boxElement.dataset.color !== "green") {
+          boxElement.dataset.color = "yellow";
         }
       }
     }
-    attempts++;
-    checkSecretWord();
-    resetVar();
   }
   function resetVar() {
     guessElement.value = "";
@@ -6192,12 +6197,12 @@
       message.innerText = `"Unlucky! The word is ${secretWord}!"`;
     }
   }
-  function newGameReset(event) {
+  function newGameReset() {
     for (let row = 0; row < 6; row++) {
       for (let column = 0; column < 5; column++) {
         const idReset = row.toString() + column.toString();
         const boxReset = document.getElementById(idReset);
-        boxReset.style.background = white;
+        boxReset.dataset.color = "white";
         boxReset.innerText = "";
         submit.style.visibility = "visible";
         endgame.style.visibility = "hidden";

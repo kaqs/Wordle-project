@@ -51,8 +51,25 @@ button {
     text-align: center;
     width: 100px;
 }
+
 #submit {
     visibility: visible;
+}
+
+[data-color="grey"] {
+    background-color: #a6aba8;
+}
+
+[data-color="green"] {
+    background-color: #2cb851;
+}
+
+[data-color="yellow"] {
+    background-color: #dfe615;
+}
+
+[data-color="white"] {
+    background-color: #ffffff;
 }
 
 #endgame {
@@ -69,5 +86,3 @@ button {
     text-align: center;
     width: 150px;
 }
-
-
