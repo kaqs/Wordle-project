@@ -4477,6 +4477,7 @@
     "horse",
     "hosts",
     "hotel",
+    "hound",
     "hours",
     "house",
     "hover",
@@ -5474,6 +5475,7 @@
     "slept",
     "slice",
     "slide",
+    "sling",
     "slope",
     "slots",
     "small",
@@ -6097,8 +6099,8 @@
   ];
 
   // wordle.js
-  var guess = "";
   var guessElement = document.getElementById("guess");
+  var guessLowerCase = "";
   var secretWord = getSecretWord();
   var indexGuess;
   var indexSecret;
@@ -6130,34 +6132,34 @@
     }
   }
   function isGuessValid() {
-    let guessLowerCase = guessElement.value.toLowerCase();
+    guessLowerCase = guessElement.value.toLowerCase();
     if (!fiveLetterWords.includes(guessLowerCase)) {
       console.log("NOT A WORD");
       submit.setAttribute("disabled", null);
     }
   }
-  function submitGuess() {
-    guess = guessElement.value.toLowerCase();
-    const inputElement = document.getElementById("guess");
-    const inputElementValue = inputElement.value.toLowerCase();
+  function submitGuess(internalGuess, internalSecretWord) {
+    guessLowerCase = guessElement.value.toLowerCase();
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
       const id = attempts.toString() + indexGuess.toString();
       const boxElement = document.getElementById(id);
-      let guessBoxText = inputElementValue[indexGuess].toUpperCase();
+      let guessBoxText = guessLowerCase[indexGuess].toUpperCase();
       boxElement.innerText = guessBoxText;
       boxElement.style.background = grey;
-      for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
-        if (guess[indexGuess] === secretWord[indexSecret] && indexGuess !== indexSecret) {
-          boxElement.style.background = yellow;
+      for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
+        if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
+          boxElement.style.background = green;
+          internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+          internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
         }
       }
     }
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
       const id = attempts.toString() + indexGuess.toString();
       const boxElement = document.getElementById(id);
-      for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
-        if (guess[indexGuess] === secretWord[indexSecret] && indexGuess === indexSecret) {
-          boxElement.style.background = green;
+      for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
+        if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && boxElement.style.background !== green && boxElement.style.background !== grey) {
+          boxElement.style.background = yellow;
         }
       }
     }
@@ -6178,12 +6180,12 @@
     return winWord[mathFloor];
   }
   function checkSecretWord() {
-    if (guess === secretWord) {
+    if (guessLowerCase === secretWord) {
       guessElement.setAttribute("disabled", null);
       submit.style.visibility = "hidden";
       endgame.style.visibility = "visible";
       message.innerText = `"${getRandomWinWord()}! You win!"`;
-    } else if (guess !== secretWord && attempts == 6) {
+    } else if (guessLowerCase !== secretWord && attempts == 6) {
       guessElement.setAttribute("disabled", null);
       submit.style.visibility = "hidden";
       endgame.style.visibility = "visible";
@@ -6206,7 +6208,9 @@
     guessElement.focus();
     secretWord = getSecretWord();
   }
-  submit.onclick = submitGuess;
+  submit.onclick = () => {
+    submitGuess(guessLowerCase, secretWord);
+  };
   guessElement.onkeyup = onKeyUpHandler;
   newgame.onclick = newGameReset;
 })();

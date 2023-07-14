@@ -1,8 +1,9 @@
 import { generate, wordList } from "random-words";
 import { fiveLetterWords } from "./five-letter-words-list";
 
-let guess = "";
+//let guess = "";
 let guessElement = document.getElementById("guess");
+let guessLowerCase = "";
 let secretWord = getSecretWord();
 let indexGuess;
 let indexSecret;
@@ -38,67 +39,57 @@ function onKeyUpHandler(event) {
 }
 
 function isGuessValid() {
-    let guessLowerCase = guessElement.value.toLowerCase();
+    guessLowerCase = guessElement.value.toLowerCase();
     if (!fiveLetterWords.includes(guessLowerCase)) {
         console.log("NOT A WORD");
         submit.setAttribute('disabled', null);
     }
 }
 
-function submitGuess() {
+function submitGuess(internalGuess, internalSecretWord) {
 
     // new variable created to be used/adjusted as necessary without affecting the original variable
-    //let internalSecretWord = secretWord;
+    // let internalSecretWord = secretWord;
+    // let internalGuess = guessLowerCase;
 
-    guess = guessElement.value.toLowerCase();
+    //guess = guessLowerCase;
+    guessLowerCase = guessElement.value.toLowerCase();
 
-    const inputElement = document.getElementById("guess");
-    const inputElementValue = inputElement.value.toLowerCase();
+    // const inputElement = document.getElementById("guess");
+    // const inputElementValue = inputElement.value.toLowerCase();
 
     // 1st loop: it assumes all the letters does not match and are not included in internalSecretWord (grey colour)
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
         const id = attempts.toString() + indexGuess.toString();
         const boxElement = document.getElementById(id);
-        let guessBoxText = inputElementValue[indexGuess].toUpperCase();
+        let guessBoxText = guessLowerCase[indexGuess].toUpperCase();
         boxElement.innerText = guessBoxText;
         boxElement.style.background = grey;
 
         // this FOR statement loops through internalSecretWord and then compares the character and index of guess
-        for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
+        for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
 
-            if (guess[indexGuess] === secretWord[indexSecret] && indexGuess !== indexSecret) {
-                boxElement.style.background = yellow;
+            if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
+                boxElement.style.background = green;
                 // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
-                //internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+                internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+                internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
             }
-
-            // this IF statement identifies all characters that matches the position of internalSecretWord characters and their index (green colour)
-            // if (guess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
-            //     boxElement.style.background = green;
-            //     // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
-            //     //internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
-            // }
         }
     }
 
-    // 2nd loop: it takes the outcome from first loop to compare if the remaining characters are included in internalSecretWord (yellow colour)
+    // 2nd loop: it takes the outcome from first loop to compare if the remaining characters are included in secretWord (yellow colour)
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
         const id = attempts.toString() + indexGuess.toString();
         const boxElement = document.getElementById(id);
 
-        for (indexSecret = 0; indexSecret < secretWord.length; indexSecret++) {
+        for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
 
-            if (guess[indexGuess] === secretWord[indexSecret] && indexGuess === indexSecret) {
-                boxElement.style.background = green;
-                // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
+            if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && boxElement.style.background !== green && boxElement.style.background !== grey) {
+                boxElement.style.background = yellow;
                 //internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+                //internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
             }
-
-            // if (guess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret) {
-            //     boxElement.style.background = yellow;
-            //     // the substring function returns a new string with the matched characters replaced by a *, preventing the original matched character being compared again.
-            //     internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
-            // }
         }
     }
 
@@ -124,13 +115,13 @@ function getRandomWinWord() {
 }
 
 function checkSecretWord() {
-    if (guess === secretWord) {
+    if (guessLowerCase === secretWord) {
         guessElement.setAttribute('disabled', null);
         submit.style.visibility = "hidden"
         endgame.style.visibility = "visible";
         message.innerText = `"${getRandomWinWord()}! You win!"`;
 
-    } else if (guess !== secretWord && attempts == 6) {
+    } else if (guessLowerCase !== secretWord && attempts == 6) {
         guessElement.setAttribute('disabled', null);
         submit.style.visibility = "hidden"
         endgame.style.visibility = "visible";
@@ -154,7 +145,9 @@ function newGameReset(event) {
     secretWord = getSecretWord();
 }
 
-submit.onclick = submitGuess;
+submit.onclick = () => {
+    submitGuess(guessLowerCase, secretWord)
+};
 guessElement.onkeyup = onKeyUpHandler;
 newgame.onclick = newGameReset;
 
