@@ -5,7 +5,8 @@
   },
   "devDependencies": {
     "esbuild": "^0.18.11",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "jest": "^29.6.1"
   },
   "name": "wordle-project",
   "version": "1.0.0",

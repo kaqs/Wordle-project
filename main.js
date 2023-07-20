@@ -4862,6 +4862,7 @@
     "loose",
     "lords",
     "loses",
+    "loser",
     "loved",
     "lover",
     "loves",
@@ -5326,6 +5327,7 @@
     "rival",
     "river",
     "roads",
+    "roast",
     "robot",
     "rocks",
     "rocky",
@@ -6143,20 +6145,18 @@
   function submitGuess(internalGuess, internalSecretWord) {
     guessLowerCase = guessElement.value.toLowerCase();
     compareGuess(internalSecretWord, internalGuess);
+    changeColor();
     attempts++;
     checkSecretWord();
     resetVar();
   }
   function compareGuess(internalSecretWord, internalGuess) {
+    const guessList = {};
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
       const id = attempts.toString() + indexGuess.toString();
-      const boxElement = document.getElementById(id);
-      let guessBoxText = guessLowerCase[indexGuess].toUpperCase();
-      boxElement.innerText = guessBoxText;
-      boxElement.dataset.color = "grey";
       for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
         if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
-          boxElement.dataset.color = "green";
+          guessList[id] = "green";
           internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
           internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
         }
@@ -6167,9 +6167,23 @@
       const boxElement = document.getElementById(id);
       for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
         if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && boxElement.dataset.color !== "green") {
-          boxElement.dataset.color = "yellow";
+          guessList[id] = "yellow";
+        } else {
+          guessList[id] = "grey";
         }
       }
+    }
+    console.log(guessList);
+    return guessList;
+  }
+  function changeColor() {
+    let listColorChange = compareGuess(secretWord, guessLowerCase);
+    guessLowerCase = guessElement.value.toUpperCase();
+    for (const property in listColorChange) {
+      const boxElement = document.getElementById(property);
+      let guessIndex = property.slice(1);
+      boxElement.dataset.color = listColorChange[property];
+      boxElement.innerText = guessLowerCase[guessIndex];
     }
   }
   function resetVar() {

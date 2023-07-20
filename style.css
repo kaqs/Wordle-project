@@ -18,7 +18,7 @@ body {
 .guessbox {
     background-color: var(--branca);
     border-radius: 10px;
-    border-style: groove;
+    border-style: solid;
     box-shadow: 3px 3px 0 var(--cinza);
     height: 60px;
     font-size: 1.75em;

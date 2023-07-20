@@ -55,33 +55,35 @@ function submitGuess(internalGuess, internalSecretWord) {
 
     compareGuess(internalSecretWord, internalGuess);
 
+    changeColor();
+
     attempts++
 
-    checkSecretWord()
-    resetVar()
+    checkSecretWord();
+    resetVar();
 }
 
-
-
 function compareGuess(internalSecretWord, internalGuess) {
+
+    const guessList = {};
+
     // 1st loop: it assumes all the letters does not match and are not included in internalSecretWord (grey colour)
     for (indexGuess = 0; indexGuess < 5; indexGuess++) {
         const id = attempts.toString() + indexGuess.toString();
-        const boxElement = document.getElementById(id);
-        let guessBoxText = guessLowerCase[indexGuess].toUpperCase();
-        boxElement.innerText = guessBoxText;
-        boxElement.dataset.color = "grey";
 
         // this FOR statement loops through internalSecretWord and then compares the character and index of guess
         for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
 
             if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
-                boxElement.dataset.color = "green";
+                // boxElement.dataset.color = "green";
+                guessList[id] = "green";
                 // the substring function returns a new string with the matched characters replaced by a * and a @, preventing the original matched character being compared again.
                 internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
                 internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
             }
         }
+
+
     }
 
     // 2nd loop: it takes the outcome from first loop to compare if the remaining characters are included in secretWord (yellow colour)
@@ -92,9 +94,29 @@ function compareGuess(internalSecretWord, internalGuess) {
         for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
 
             if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && boxElement.dataset.color !== "green") {
-                boxElement.dataset.color = "yellow";
+                // boxElement.dataset.color = "yellow";
+                guessList[id] = "yellow";
+            } else {
+                guessList[id] = "grey";
             }
         }
+    }
+    console.log(guessList);
+    return guessList;
+}
+
+function changeColor() {
+    let listColorChange = compareGuess(secretWord, guessLowerCase);
+
+    guessLowerCase = guessElement.value.toUpperCase();
+
+    for (const property in listColorChange) {
+        
+        const boxElement = document.getElementById(property);
+        let guessIndex = property.slice(1);      
+
+        boxElement.dataset.color = listColorChange[property];
+        boxElement.innerText = guessLowerCase[guessIndex];
     }
 }
 
