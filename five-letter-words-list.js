@@ -2704,6 +2704,7 @@ export const fiveLetterWords = [
 "slept",
 "slice",
 "slide",
+"slime",
 "sling",
 "slope",
 "slots",

@@ -5480,6 +5480,7 @@
     "slept",
     "slice",
     "slide",
+    "slime",
     "sling",
     "slope",
     "slots",
@@ -6106,12 +6107,37 @@
     "zoeal"
   ];
 
+  // wordleUtils.js
+  function compareGuess(internalSecretWord, internalGuess, attempts2) {
+    const guessList = {};
+    for (let indexGuess = 0; indexGuess < 5; indexGuess++) {
+      const id = attempts2.toString() + indexGuess.toString();
+      guessList[id] = "grey";
+      for (let indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
+        if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
+          guessList[id] = "green";
+          internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+          internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
+        }
+      }
+    }
+    for (let indexGuess = 0; indexGuess < 5; indexGuess++) {
+      const id = attempts2.toString() + indexGuess.toString();
+      for (let indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
+        if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && guessList[id] !== "green") {
+          guessList[id] = "yellow";
+          internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
+          internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
+        }
+      }
+    }
+    return guessList;
+  }
+
   // wordle.js
   var guessElement = document.getElementById("guess");
   var guessLowerCase = "";
   var secretWord = getSecretWord();
-  var indexGuess;
-  var indexSecret;
   var attempts = 0;
   var submit = document.getElementById("submitbutton");
   var message = document.getElementById("message");
@@ -6144,40 +6170,13 @@
   }
   function submitGuess(internalGuess, internalSecretWord) {
     guessLowerCase = guessElement.value.toLowerCase();
-    compareGuess(internalSecretWord, internalGuess);
-    changeColor();
+    let listColorChange = compareGuess(internalSecretWord, internalGuess, attempts);
+    changeColor(listColorChange);
     attempts++;
     checkSecretWord();
     resetVar();
   }
-  function compareGuess(internalSecretWord, internalGuess) {
-    const guessList = {};
-    for (indexGuess = 0; indexGuess < 5; indexGuess++) {
-      const id = attempts.toString() + indexGuess.toString();
-      for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
-        if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
-          guessList[id] = "green";
-          internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
-          internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
-        }
-      }
-    }
-    for (indexGuess = 0; indexGuess < 5; indexGuess++) {
-      const id = attempts.toString() + indexGuess.toString();
-      const boxElement = document.getElementById(id);
-      for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
-        if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && boxElement.dataset.color !== "green") {
-          guessList[id] = "yellow";
-        } else {
-          guessList[id] = "grey";
-        }
-      }
-    }
-    console.log(guessList);
-    return guessList;
-  }
-  function changeColor() {
-    let listColorChange = compareGuess(secretWord, guessLowerCase);
+  function changeColor(listColorChange) {
     guessLowerCase = guessElement.value.toUpperCase();
     for (const property in listColorChange) {
       const boxElement = document.getElementById(property);

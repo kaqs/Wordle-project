@@ -1,11 +1,10 @@
 import { generate, wordList } from "random-words";
 import { fiveLetterWords } from "./five-letter-words-list";
+import { compareGuess } from "./wordleUtils";
 
 let guessElement = document.getElementById("guess");
 let guessLowerCase = "";
 let secretWord = getSecretWord();
-let indexGuess;
-let indexSecret;
 let attempts = 0;
 let submit = document.getElementById("submitbutton");
 let message = document.getElementById("message");
@@ -53,9 +52,9 @@ function submitGuess(internalGuess, internalSecretWord) {
 
     guessLowerCase = guessElement.value.toLowerCase();
 
-    compareGuess(internalSecretWord, internalGuess);
+     let listColorChange = compareGuess(internalSecretWord, internalGuess, attempts);
 
-    changeColor();
+    changeColor(listColorChange);
 
     attempts++
 
@@ -63,50 +62,7 @@ function submitGuess(internalGuess, internalSecretWord) {
     resetVar();
 }
 
-function compareGuess(internalSecretWord, internalGuess) {
-
-    const guessList = {};
-
-    // 1st loop: it assumes all the letters does not match and are not included in internalSecretWord (grey colour)
-    for (indexGuess = 0; indexGuess < 5; indexGuess++) {
-        const id = attempts.toString() + indexGuess.toString();
-
-        // this FOR statement loops through internalSecretWord and then compares the character and index of guess
-        for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
-
-            if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess === indexSecret) {
-                // boxElement.dataset.color = "green";
-                guessList[id] = "green";
-                // the substring function returns a new string with the matched characters replaced by a * and a @, preventing the original matched character being compared again.
-                internalSecretWord = internalSecretWord.substring(0, indexSecret) + "*" + internalSecretWord.substring(indexSecret + 1, indexSecret.lenght);
-                internalGuess = internalGuess.substring(0, indexGuess) + "@" + internalGuess.substring(indexGuess + 1, indexGuess.lenght);
-            }
-        }
-
-
-    }
-
-    // 2nd loop: it takes the outcome from first loop to compare if the remaining characters are included in secretWord (yellow colour)
-    for (indexGuess = 0; indexGuess < 5; indexGuess++) {
-        const id = attempts.toString() + indexGuess.toString();
-        const boxElement = document.getElementById(id);
-
-        for (indexSecret = 0; indexSecret < internalSecretWord.length; indexSecret++) {
-
-            if (internalGuess[indexGuess] === internalSecretWord[indexSecret] && indexGuess !== indexSecret && boxElement.dataset.color !== "green") {
-                // boxElement.dataset.color = "yellow";
-                guessList[id] = "yellow";
-            } else {
-                guessList[id] = "grey";
-            }
-        }
-    }
-    console.log(guessList);
-    return guessList;
-}
-
-function changeColor() {
-    let listColorChange = compareGuess(secretWord, guessLowerCase);
+function changeColor(listColorChange) {
 
     guessLowerCase = guessElement.value.toUpperCase();
 
@@ -170,4 +126,6 @@ submit.onclick = () => {
 guessElement.onkeyup = onKeyUpHandler;
 newgame.onclick = newGameReset;
 
+
+// export default {compareGuess}
 
