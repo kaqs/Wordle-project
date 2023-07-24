@@ -35,3 +35,7 @@ test('When secretWord is COLOR and guess is COLOR, it should return the backgrou
 test('When secretWord is SLICE and guess is SMELL, it should return the background colors', () => {
     expect(compareGuess("SLICE", "SMELL", 0)).toEqual({"00" : "green", "01" : "grey", "02" : "yellow", "03" : "yellow", "04" : "grey",});
 });
+
+test('When secretWord is EARLY and guess is EARLY, it should return the background colors', () => {
+    expect(compareGuess("EARLY", "EARLY", 0)).toEqual({"00" : "green", "01" : "green", "02" : "green", "03" : "green", "04" : "green",});
+});

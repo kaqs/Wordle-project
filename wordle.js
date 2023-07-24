@@ -64,7 +64,7 @@ function submitGuess(internalGuess, internalSecretWord) {
 
 function changeColor(listColorChange) {
 
-    guessLowerCase = guessElement.value.toUpperCase();
+    guessLowerCase = guessElement.value.toLowerCase();
 
     for (const property in listColorChange) {
         
@@ -72,7 +72,7 @@ function changeColor(listColorChange) {
         let guessIndex = property.slice(1);      
 
         boxElement.dataset.color = listColorChange[property];
-        boxElement.innerText = guessLowerCase[guessIndex];
+        boxElement.innerText = guessLowerCase[guessIndex].toUpperCase();
     }
 }
 
